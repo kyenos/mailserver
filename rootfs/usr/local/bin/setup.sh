@@ -582,12 +582,12 @@ sievec /etc/dovecot/sieve/report-spam.sieve
 
 # Set permissions
 mkdir -p /var/run/dovecot
-chown -R dovecot:dovecot /var/run/dovecot
-chown -R vmail:vmail /var/mail/sieve
+chown -R dovecot:dovecot /var/run/dovecot &
+chown -R vmail:vmail /var/mail/sieve &
 chmod +x /etc/dovecot/sieve/*.sh
 
 # Check permissions of vhosts directories
-find /var/mail/vhosts ! -user vmail -print0 | xargs -0 -r chown vmail:vmail
+#find /var/mail/vhosts ! -user vmail -print0 | xargs -0 -r chown vmail:vmail
 
 # Avoid file_dotlock_open function exception
 rm -f /var/mail/dovecot/instances
@@ -612,7 +612,7 @@ if [ "$DISABLE_DNS_RESOLVER" = false ]; then
 
   # Set permissions
   chmod 775 /etc/unbound
-  chown -R unbound:unbound /etc/unbound
+  chown -R unbound:unbound /etc/unbound &
 
 fi
 
@@ -649,7 +649,7 @@ sed -i "s|<PASSWORD>|${PASSWORD}|g" /etc/rspamd/local.d/worker-controller.inc
 
 # Set permissions
 mkdir -p /var/mail/rspamd /var/log/rspamd /run/rspamd
-chown -R _rspamd:_rspamd /var/mail/rspamd /var/log/rspamd /run/rspamd
+chown -R _rspamd:_rspamd /var/mail/rspamd /var/log/rspamd /run/rspamd &
 chmod 750 /var/mail/rspamd /var/log/rspamd
 
 modules+=(${DISABLE_RSPAMD_MODULE//,/ })
@@ -728,7 +728,7 @@ fi
 
 # Create clamd directories
 mkdir -p /var/run/clamav /var/mail/clamav /var/log/clamav
-chown -R clamav:clamav /var/run/clamav /var/mail/clamav /var/log/clamav
+chown -R clamav:clamav /var/run/clamav /var/mail/clamav /var/log/clamav &
 
 # CLAMAV-UNOFFICIAL-SIGS
 # ---------------------------------------------------------------------------------------------
@@ -756,7 +756,7 @@ mkdir -p /var/run/fetchmail
 chmod +x /usr/local/bin/*
 
 # Fix old DKIM keys permissions
-chown -R vmail:vmail /var/mail/dkim
+chown -R vmail:vmail /var/mail/dkim &
 chmod 444 /var/mail/dkim/*/{private.key,public.key}
 
 # Ensure that hashes are calculated because Postfix require directory
